@@ -1,0 +1,20 @@
+# ninja log v6
+38	1062	7721147542750399	CMakeFiles/Notes_1.dir/ConsoleCollectionObserver.cpp.obj	f3eb1a0999750b33
+8	1742	7721384486554961	CMakeFiles/Notes_1.dir/NoteManager.cpp.obj	9d7dae745938dc64
+94	1155	7721382389387222	CMakeFiles/Notes_1.dir/CollectionObserver.cpp.obj	a0ac61d86f1777e8
+66	1085	7721382389107267	CMakeFiles/Notes_1.dir/Note.cpp.obj	c7e985a1e402451e
+72	1605	7721382389167160	CMakeFiles/Notes_1.dir/Collection.cpp.obj	5d513b12036e1acd
+61	857	7721382389057247	CMakeFiles/Notes_1.dir/main.cpp.obj	ef28fc4effbbe406
+15	554	7721393256781813	build.ninja	28145c2a3f41162b
+1743	2160	7721384503909399	Notes_1.exe	1abb648133e58046
+79	680	7721382389237244	CMakeFiles/Notes_1.dir/Observer.cpp.obj	76a1ba94a54bfd13
+65	1333	7721416322006960	CMakeFiles/Notes_1.dir/main.cpp.obj	ef28fc4effbbe406
+76	1502	7721416322110979	CMakeFiles/Notes_1.dir/NoteApp.cpp.obj	17ab41cbca2b61ef
+1503	1934	7721416336373663	Notes_1.exe	ab534c7436055425
+9	1403	7721419001192772	CMakeFiles/Notes_1.dir/NoteApp.cpp.obj	17ab41cbca2b61ef
+1404	1823	7721419015141871	Notes_1.exe	ab534c7436055425
+51	1455	7721420281780364	CMakeFiles/Notes_1.dir/NoteApp.cpp.obj	17ab41cbca2b61ef
+1456	1888	7721420295822703	Notes_1.exe	ab534c7436055425
+7	1189	7721445999293874	CMakeFiles/Notes_1.dir/main.cpp.obj	ef28fc4effbbe406
+15	1612	7721445999367083	CMakeFiles/Notes_1.dir/NoteApp.cpp.obj	17ab41cbca2b61ef
+1612	2048	7721446015328903	Notes_1.exe	ab534c7436055425

@@ -1,0 +1,40 @@
+//
+// Created by elisa on 18/06/2025.
+//
+
+#ifndef NOTES_1_COLLECTION_H
+#define NOTES_1_COLLECTION_H
+
+#include <string>
+#include <vector>
+#include <memory>
+#include <algorithm>
+
+#include "Note.h"
+#include "Observer.h"
+
+class Collection : public std::enable_shared_from_this<Collection> {
+public:
+    explicit Collection(const std::string& name);
+
+    const std::string& getName() const;
+
+    void addNote(const std::shared_ptr<Note>& note);
+    void removeNote(const std::shared_ptr<Note>& note);
+
+    const std::vector<std::shared_ptr<Note>>& getNotes() const;
+    std::shared_ptr<Note> findNoteByTitle(const std::string& title) const;
+
+    void attachObserver(Observer* observer);
+    void detachObserver(Observer* observer);
+
+private:
+    std::string name;
+    std::vector<std::shared_ptr<Note>> notes;
+    std::vector<Observer*> observers;
+
+    void notifyObservers() const;
+};
+
+
+#endif //NOTES_1_COLLECTION_H
