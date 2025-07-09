@@ -23,16 +23,11 @@ public:
     void toggleLock();
     void toggleImportant();
 
-    void setCollection(std::shared_ptr<Collection> collection);
-    std::shared_ptr<Collection> getCollection() const;
-
 private:
     std::string title;
     std::string text;
     bool important;
     bool locked;
-
-    std::weak_ptr<Collection> collection;
 };
 
 

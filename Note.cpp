@@ -35,14 +35,6 @@ void Note::toggleImportant() {
     important = !important;
 }
 
-void Note::setCollection(std::shared_ptr<Collection> col) {
-    collection = col;
-}
-
-std::shared_ptr<Collection> Note::getCollection() const {
-    return collection.lock();
-}
-
 
 
 

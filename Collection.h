@@ -20,10 +20,11 @@ public:
     const std::string& getName() const;
 
     void addNote(const std::shared_ptr<Note>& note);
-    void removeNote(const std::shared_ptr<Note>& note);
+    bool removeNote(const std::string& title);
 
     const std::vector<std::shared_ptr<Note>>& getNotes() const;
     std::shared_ptr<Note> findNoteByTitle(const std::string& title) const;
+    std::shared_ptr<Note> getNote(const std::string& title) const;
 
     void attachObserver(Observer* observer);
     void detachObserver(Observer* observer);

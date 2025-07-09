@@ -13,18 +13,21 @@ const std::string& Collection::getName() const {
 void Collection::addNote(const std::shared_ptr<Note>& note) {
     if (std::find(notes.begin(), notes.end(), note) == notes.end()) {
         notes.push_back(note);
-        note->setCollection(shared_from_this());
         notifyObservers();
     }
 }
 
-void Collection::removeNote(const std::shared_ptr<Note>& note) {
-    auto it = std::remove(notes.begin(), notes.end(), note);
+bool Collection::removeNote(const std::string& title) {
+    auto it = std::remove_if(notes.begin(), notes.end(), [&](const std::shared_ptr<Note>& n) {
+                                 return n->getTitle() == title;
+                             });
+
     if (it != notes.end()) {
         notes.erase(it, notes.end());
-        note->setCollection(nullptr);
         notifyObservers();
+        return true;
     }
+    return false;
 }
 
 const std::vector<std::shared_ptr<Note>>& Collection::getNotes() const {
@@ -54,4 +57,13 @@ void Collection::notifyObservers() const {
     for (auto* observer : observers) {
         observer->onCollectionChanged(*this, notes.size());
     }
+}
+
+std::shared_ptr<Note> Collection::getNote(const std::string& title) const {
+    for (const auto& note : notes) {
+        if (note->getTitle() == title) {
+            return note;
+        }
+    }
+    return nullptr;
 }

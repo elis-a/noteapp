@@ -5,40 +5,49 @@
 #include "NoteApp.h"
 #include <iostream>
 
-NoteApp::NoteApp() : observer(std::make_shared<CollectionObserver>()) {}
+NoteApp::NoteApp() : observer(std::make_shared<CollectionObserver>()) {
+    manager.createCollection("Important");
+}
 
 void NoteApp::run() {
     int choice;
     do {
-        showMenu();
+        showMainMenu();
         std::cin >> choice;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        handleUserInput(choice);
+        handleMainInput(choice);
     } while (choice != 0);
 }
 
-void NoteApp::showMenu() const {
+void NoteApp::showMainMenu() const {
     std::cout << "\n--- Note Manager ---\n";
     std::cout << "1. Create collection\n";
-    std::cout << "2. List collections\n";
-    std::cout << "3. Create note\n";
-    std::cout << "4. Toggle note importance\n";
-    std::cout << "5. Toggle note lock\n";
-    std::cout << "6. Delete collection\n";
+    std::cout << "2. Open a collection\n";
+    std::cout << "3. Delete a collection\n";
+    std::cout << "4. View important notes\n";
     std::cout << "0. Exit\n";
     std::cout << "Choice: ";
 }
 
-void NoteApp::handleUserInput(int choice) {
+void NoteApp::handleMainInput(int choice) {
     switch (choice) {
-        case 1: createCollection(); break;
-        case 2: listCollections(); break;
-        case 3: createNote(); break;
-        case 4: toggleNoteImportant(); break;
-        case 5: toggleNoteLock(); break;
-        case 6: deleteCollection(); break;
-        case 0: std::cout << "Exiting...\n"; break;
-        default: std::cout << "Invalid choice.\n";
+        case 1:
+            createCollection();
+            break;
+        case 2:
+            openCollection();
+            break;
+        case 3:
+            deleteCollection();
+            break;
+        case 4:
+            viewImportantNotes();
+            break;
+        case 0:
+            std::cout << "Exit...\n";
+            break;
+        default:
+            std::cout << "Invalid choice.\n";
     }
 }
 
@@ -51,86 +60,219 @@ void NoteApp::createCollection() {
         auto collection = manager.getCollection(name);
         collection->attachObserver(observer.get());
         std::cout << "Collection \"" << name << "\" created.\n";
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         std::cout << "Error: " << e.what() << '\n';
     }
 }
 
-void NoteApp::listCollections() {
-    auto names = manager.listCollectionNames();
-    if (names.empty()) {
-        std::cout << "No collections found.\n";
-    } else {
-        std::cout << "Collections:\n";
-        for (const auto& name : names) {
-            std::cout << "- " << name << '\n';
-        }
-    }
+void NoteApp::openCollection() {
+    std::string name;
+    std::cout << "Insert collection name:";
+    std::getline(std::cin, name);
+    enterCollection(name);
 }
 
-void NoteApp::createNote() {
-    std::string title, text, collectionName;
-    std::cout << "Note Title: ";
-    std::getline(std::cin, title);
-    std::cout << "Note text: ";
-    std::getline(std::cin, text);
-
-    std::cout << "Collection name: ";
-    std::getline(std::cin, collectionName);
-
-    if (!manager.hasCollection(collectionName)){
-        std::cout << "Collection doesn't exist. \n";
+void NoteApp::enterCollection(const std::string &name) {
+    if (!manager.hasCollection(name)) {
+        std::cout << "Collection not found\n";
         return;
     }
+    /*std::string name;
+    std::cout<< "Insert collection name: ";
+    std::getline(std::cin, name);
 
-    auto note = std::make_shared<Note>(title, text);
-    try {
-        auto collection = manager.getCollection(collectionName);
-        collection->addNote(note);
-        std::cout << "Note added to collection. \n";
-    } catch (const std::exception& e) {
-        std::cout << "Error: " << e.what() << '\n';
-    }
-}
+    if(!manager.hasCollection(name)){
+        std::cout<<"Collection not found\n";
+        return;
+    }*/
 
-void NoteApp::toggleNoteImportant() {
-    std::string title;
-    std::cout << "Note title: ";
-    std::getline(std::cin, title);
+    auto collection = manager.getCollection(name);
 
-    auto note = manager.findNoteInAllCollection(title);
-    if (note) {
-        note->toggleImportant();
-        std::cout << "Toggled importance. \n";
-    } else {
-        std::cout << "Note not found. \n";
-    }
-}
+    int choice;
+    do {
+        std::cout << "--- Collection: " << collection->getName() << " ---\n";
+        const auto &notes = collection->getNotes();
+        if (notes.empty()) {
+            std::cout << "This collection is empty.\n";
+        } else {
+            for (const auto &note: collection->getNotes()) {
+                std::cout << (note->isImportant() ? "[<3]" : "[  ]")
+                          << (note->isLocked() ? "[L]" : "[ ]")
+                          << " " << note->getTitle() << "\n";
+            }
+        }
 
-void NoteApp::toggleNoteLock() {
-    std::string title;
-    std::cout << "Note title: ";
-    std::getline(std::cin, title);
+        std::cout << "1. Add note\n";
+        std::cout << "2. View note\n";
+        std::cout << "3. Edit note\n";
+        std::cout << "4. Delete note\n";
+        std::cout << "5. Change note state (importance/lock)\n";
+        std::cout << "0. Back to main menu\n";
+        std::cout << "Choice: ";
 
-    auto note = manager.findNoteInAllCollection(title);
-    if (note) {
-        note->toggleLock();
-        std::cout << "Toggles lock status. \n";
-    } else {
-        std::cout << "Note not found. \n";
-    }
+        std::cin >> choice;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        switch (choice) {
+            case 1:
+                createNoteInCollection(collection);
+                break;
+            case 2:
+                viewNote(collection);
+                break;
+            case 3:
+                editNote(collection);
+                break;
+            case 4:
+                deleteNote(collection);
+                break;
+            case 5:
+                toggleNoteState(collection);
+                break;
+            case 0:
+                break;
+            default:
+                std::cout << "Invalid choice. \n";
+        }
+    } while (choice != 0);
 }
 
 void NoteApp::deleteCollection() {
     std::string name;
     std::cout << "Collection name: ";
     std::getline(std::cin, name);
+
+    if (name == "Important") {
+        std::cout << "The 'Important' collection cannot be deleted.\n";
+        return;
+    }
+
     try {
         manager.deleteCollection(name);
         std::cout << "Collection deleted. \n";
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
         std::cout << "Error: " << e.what() << '\n';
     }
 }
 
+void NoteApp::createNoteInCollection(const std::shared_ptr<Collection> &collection) {
+    std::string title, text;
+    std::cout << "Note title: ";
+    std::getline(std::cin, title);
+    std::cout << "Note text: ";
+    std::getline(std::cin, text);
 
+    auto note = std::make_shared<Note>(title, text);
+    collection->addNote(note);
+    std::cout << "Note added to collection.\n";
+}
+
+void NoteApp::viewNote(const std::shared_ptr<Collection> &collection) {
+    std::string title;
+    std::cout << "Note title to view: ";
+    std::getline(std::cin, title);
+
+    auto note = collection->getNote(title);
+    if (!note) {
+        std::cout << "Note not found.\n";
+        return;
+    }
+
+    std::cout << "\n--- Note: " << note->getTitle() << " ---\n";
+    std::cout << "Important: " << (note->isImportant() ? "[<3]" : "[  ]") << "\n";
+    std::cout << "Locked: " << (note->isLocked() ? "[L]" : "[ ]") << "\n";
+    std::cout << "Text:\n" << note->getText() << "\n";
+}
+
+void NoteApp::editNote(const std::shared_ptr<Collection> &collection) {
+    std::string title;
+    std::cout << "Note title to edit: ";
+    std::getline(std::cin, title);
+
+    auto note = collection->getNote(title);
+    if (!note) {
+        std::cout << "Note not found.\n";
+        return;
+    }
+
+    if (note->isLocked()) {
+        std::cout << "Note is locked and cannot be edited.\n";
+        return;
+    }
+
+    std::string newText;
+    std::cout << "Enter new text: ";
+    std::getline(std::cin, newText);
+    note->setText(newText);
+    std::cout << "Note updated.\n";
+}
+
+void NoteApp::deleteNote(const std::shared_ptr<Collection> &collection) {
+    std::string title;
+    std::cout << "Note title to delete: ";
+    std::getline(std::cin, title);
+
+    auto note = collection->getNote(title);
+
+    if (!note) {
+        std::cout << "Note not found.\n";
+        return;
+    } else if (note->isLocked()) {
+        std::cout << "Note is locked and cannot be deleted.\n";
+        return;
+    } else if (note->isImportant()) {
+        std::cout << "Note is important and cannot be deleted.\n";
+        return;
+    } else { collection->removeNote(title); }
+
+}
+
+void NoteApp::toggleNoteState(const std::shared_ptr<Collection> &collection) {
+    std::string title;
+    std::cout << "Note title to change state: ";
+    std::getline(std::cin, title);
+
+    auto note = collection->getNote(title);
+    if (!note) {
+        std::cout << "Note not found.\n";
+        return;
+    }
+
+    int choice;
+    std::cout << "1. Toggle importance";
+    std::cout << "\n 2. Toggle lock";
+    std::cout << "\n Choice: ";
+    std::cin >> choice;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    if (choice == 1) {
+        note->toggleImportant();
+        auto importantCollection = manager.getCollection("Important");
+        if (note->isImportant()) {
+            importantCollection->addNote(note);
+        } else {
+            importantCollection->removeNote(note->getTitle());
+        }
+        std::cout << "Importance toggled.\n";
+    } else if (choice == 2) {
+        note->toggleLock();
+        std::cout << "Lock status toggled.\n";
+    } else {
+        std::cout << "Invalid choice.\n";
+    }
+}
+
+
+void NoteApp::viewImportantNotes() {
+    enterCollection("Important");
+    /*auto importantNotes = manager.getImportantNotes();
+    if (importantNotes.empty()) {
+        std::cout << "No important notes found.\n";
+    } else {
+        std::cout << "--- Important Notes ---\n";
+        for (const auto &note: importantNotes) {
+            std::cout << (note->isLocked() ? "[L]" : "[ ]")
+                      << " " << note->getTitle() << "\n";
+        }
+    }*/
+}

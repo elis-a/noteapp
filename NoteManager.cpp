@@ -60,4 +60,3 @@ std::shared_ptr<Note> NoteManager::findNoteInAllCollection(const std::string& ti
 
 
 
-
