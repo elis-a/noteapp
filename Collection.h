@@ -23,7 +23,6 @@ public:
     bool removeNote(const std::string& title);
 
     const std::vector<std::shared_ptr<Note>>& getNotes() const;
-    std::shared_ptr<Note> findNoteByTitle(const std::string& title) const;
     std::shared_ptr<Note> getNote(const std::string& title) const;
 
     void attachObserver(Observer* observer);

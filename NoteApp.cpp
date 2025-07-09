@@ -77,14 +77,6 @@ void NoteApp::enterCollection(const std::string &name) {
         std::cout << "Collection not found\n";
         return;
     }
-    /*std::string name;
-    std::cout<< "Insert collection name: ";
-    std::getline(std::cin, name);
-
-    if(!manager.hasCollection(name)){
-        std::cout<<"Collection not found\n";
-        return;
-    }*/
 
     auto collection = manager.getCollection(name);
 
@@ -265,14 +257,4 @@ void NoteApp::toggleNoteState(const std::shared_ptr<Collection> &collection) {
 
 void NoteApp::viewImportantNotes() {
     enterCollection("Important");
-    /*auto importantNotes = manager.getImportantNotes();
-    if (importantNotes.empty()) {
-        std::cout << "No important notes found.\n";
-    } else {
-        std::cout << "--- Important Notes ---\n";
-        for (const auto &note: importantNotes) {
-            std::cout << (note->isLocked() ? "[L]" : "[ ]")
-                      << " " << note->getTitle() << "\n";
-        }
-    }*/
 }

@@ -34,15 +34,6 @@ const std::vector<std::shared_ptr<Note>>& Collection::getNotes() const {
     return notes;
 }
 
-std::shared_ptr<Note> Collection::findNoteByTitle(const std::string& title) const {
-    for (const auto& note : notes){
-        if(note->getTitle() == title) {
-            return note;
-        }
-    }
-    return nullptr;
-}
-
 void Collection::attachObserver(Observer* observer) {
     if (std::find(observers.begin(), observers.end(), observer) == observers.end()) {
         observers.push_back(observer);

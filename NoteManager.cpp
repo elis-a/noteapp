@@ -48,7 +48,7 @@ std::shared_ptr<Note> NoteManager::findNoteInAllCollection(const std::string& ti
         const std::string& name = pair.first;
         const std::shared_ptr<Collection>& collection = pair.second;
 
-        auto note = collection->findNoteByTitle(title);
+        auto note = collection->getNote(title);
         if (note != nullptr) {
             return note;
         }

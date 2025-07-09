@@ -18,7 +18,6 @@ public:
     bool hasCollection(const std::string& name) const;
 
     std::vector<std::string> listCollectionNames() const;
-
     std::shared_ptr<Note> findNoteInAllCollection(const std::string& title) const;
 
 private:
