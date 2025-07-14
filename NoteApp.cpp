@@ -4,11 +4,13 @@
 
 #include "NoteApp.h"
 #include <iostream>
+#include <limits>
 
 NoteApp::NoteApp() : observer(std::make_shared<CollectionObserver>()) {
     manager.createCollection("Important");
 }
 
+// Avvia il ciclo principale dell'applicazione, che continua a mostrare il menu e gestisce le scelte dell'utente finché non sceglie di uscire dal programma
 void NoteApp::run() {
     int choice;
     do {
@@ -19,6 +21,7 @@ void NoteApp::run() {
     } while (choice != 0);
 }
 
+// Stampa a schermo il menu principale, mostrando le opzioni disponibili
 void NoteApp::showMainMenu() const {
     std::cout << "\n--- Note Manager ---\n";
     std::cout << "1. Create collection\n";
@@ -29,6 +32,7 @@ void NoteApp::showMainMenu() const {
     std::cout << "Choice: ";
 }
 
+// Fa partire la funzione corretta in base all'input dell'utente
 void NoteApp::handleMainInput(int choice) {
     switch (choice) {
         case 1:
@@ -51,6 +55,7 @@ void NoteApp::handleMainInput(int choice) {
     }
 }
 
+// Guida l'utente nella creazione di una collezione chiedendo il nome che le vuole dare
 void NoteApp::createCollection() {
     std::string name;
     std::cout << "Collection name: ";
@@ -65,6 +70,7 @@ void NoteApp::createCollection() {
     }
 }
 
+// Chiede all'utente un input per decidere quale collezione aprire
 void NoteApp::openCollection() {
     std::string name;
     std::cout << "Insert collection name:";
@@ -72,6 +78,7 @@ void NoteApp::openCollection() {
     enterCollection(name);
 }
 
+// Mostra il contenuto  di una collezione e un sottomenu per interagire con le note al suo interno
 void NoteApp::enterCollection(const std::string &name) {
     if (!manager.hasCollection(name)) {
         std::cout << "Collection not found\n";
@@ -129,6 +136,7 @@ void NoteApp::enterCollection(const std::string &name) {
     } while (choice != 0);
 }
 
+// Gestisce le cancellazioni delle collezioni, impedendo la cancellazione della collezione speciale "Important"
 void NoteApp::deleteCollection() {
     std::string name;
     std::cout << "Collection name: ";
@@ -147,6 +155,7 @@ void NoteApp::deleteCollection() {
     }
 }
 
+// Chiede all'utente titolo e testo della nuova nota da aggiungere alla collezione corrente
 void NoteApp::createNoteInCollection(const std::shared_ptr<Collection> &collection) {
     std::string title, text;
     std::cout << "Note title: ";
@@ -159,6 +168,7 @@ void NoteApp::createNoteInCollection(const std::shared_ptr<Collection> &collecti
     std::cout << "Note added to collection.\n";
 }
 
+// Mostra i contenuti completi di una singola nota: titolo, testo e stati di blocco/importanza
 void NoteApp::viewNote(const std::shared_ptr<Collection> &collection) {
     std::string title;
     std::cout << "Note title to view: ";
@@ -176,6 +186,7 @@ void NoteApp::viewNote(const std::shared_ptr<Collection> &collection) {
     std::cout << "Text:\n" << note->getText() << "\n";
 }
 
+// Permette di modificare il testo di una nota, controllando prima che non sia bloccata
 void NoteApp::editNote(const std::shared_ptr<Collection> &collection) {
     std::string title;
     std::cout << "Note title to edit: ";
@@ -199,6 +210,7 @@ void NoteApp::editNote(const std::shared_ptr<Collection> &collection) {
     std::cout << "Note updated.\n";
 }
 
+// Elimina una nota dalla collezione, controllando prima che non sia bloccata o importante
 void NoteApp::deleteNote(const std::shared_ptr<Collection> &collection) {
     std::string title;
     std::cout << "Note title to delete: ";
@@ -219,6 +231,7 @@ void NoteApp::deleteNote(const std::shared_ptr<Collection> &collection) {
 
 }
 
+// Permette di cambiare lo stato di importanza e di blocco di una nota
 void NoteApp::toggleNoteState(const std::shared_ptr<Collection> &collection) {
     std::string title;
     std::cout << "Note title to change state: ";
@@ -254,7 +267,7 @@ void NoteApp::toggleNoteState(const std::shared_ptr<Collection> &collection) {
     }
 }
 
-
+// Funzione che mostra la collezione speciale "Important"
 void NoteApp::viewImportantNotes() {
     enterCollection("Important");
 }

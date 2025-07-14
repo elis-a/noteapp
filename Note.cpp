@@ -23,14 +23,17 @@ bool Note::isImportant() const {
     return important;
 };
 
+// Imposta o aggiorna il testo della nota
 void Note::setText(const std::string& newText) {
     text = newText;
 }
 
+// Inverte lo stato di blocco della nota, passando da bloccata a sbloccata o viceversa
 void Note::toggleLock() {
     locked = !locked;
 }
 
+// Inverte lo stato di importanza della nota, passando da importante a non importante o viceversa
 void Note::toggleImportant() {
     important = !important;
 }
