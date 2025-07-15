@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
 #include "Note.h"
 
-// test di prova, sempre true
+// Test di prova, sempre true
 TEST(NoteTest, Placeholder) {
     EXPECT_TRUE(true);
 }
 
-// verifica del costruttore e dei getter della funzione
+// Verifica del costruttore e dei getter della funzione
 TEST(NoteTest, ConstructorAndGetters) {
     Note note("Test Title", "This is a test note.");
 
@@ -17,7 +17,7 @@ TEST(NoteTest, ConstructorAndGetters) {
     ASSERT_FALSE(note.isImportant());
 }
 
-// verifica della modifica del text
+// Verifica della modifica del text
 TEST(NoteTest, SetText) {
     Note note("Test Title", "Initial text.");
     note.setText("Updated text.");
@@ -25,7 +25,7 @@ TEST(NoteTest, SetText) {
     ASSERT_EQ(note.getText(), "Updated text.");
 }
 
-// verifica toggle locked
+// Verifica toggle locked
 TEST(NotesTest, ToggleLock) {
     Note note("Test Title", "Some text.");
 
@@ -38,7 +38,7 @@ TEST(NotesTest, ToggleLock) {
     ASSERT_FALSE(note.isLocked());
 }
 
-// verifica toggle important
+// Verifica toggle important
 TEST(NoteTest, ToggleImportant) {
     Note note("Test title", "Some text.");
 

@@ -10,7 +10,8 @@ NoteApp::NoteApp() : observer(std::make_shared<CollectionObserver>()) {
     manager.createCollection("Important");
 }
 
-// Avvia il ciclo principale dell'applicazione, che continua a mostrare il menu e gestisce le scelte dell'utente finché non sceglie di uscire dal programma
+// Avvia il ciclo principale dell'applicazione, che continua a mostrare il menu e gestisce le scelte dell'utente
+// finché non sceglie di uscire dal programma
 void NoteApp::run() {
     int choice;
     do {
@@ -55,7 +56,7 @@ void NoteApp::handleMainInput(int choice) {
     }
 }
 
-// Guida l'utente nella creazione di una collezione chiedendo il nome che le vuole dare
+// Guida l'utente nella creazione di una collezione chiedendo il nome che vuole dare alla collezione
 void NoteApp::createCollection() {
     std::string name;
     std::cout << "Collection name: ";
@@ -78,7 +79,7 @@ void NoteApp::openCollection() {
     enterCollection(name);
 }
 
-// Mostra il contenuto  di una collezione e un sottomenu per interagire con le note al suo interno
+// Mostra il contenuto  di una collezione e un sotto-menu per interagire con le note al suo interno
 void NoteApp::enterCollection(const std::string &name) {
     if (!manager.hasCollection(name)) {
         std::cout << "Collection not found\n";
@@ -155,7 +156,7 @@ void NoteApp::deleteCollection() {
     }
 }
 
-// Chiede all'utente titolo e testo della nuova nota da aggiungere alla collezione corrente
+// Chiede all'utente titolo e testo della nuova nota da aggiungere alla collezione
 void NoteApp::createNoteInCollection(const std::shared_ptr<Collection> &collection) {
     std::string title, text;
     std::cout << "Note title: ";

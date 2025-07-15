@@ -14,21 +14,21 @@ public:
     void run();
 
 private:
-    NoteManager manager;
-    std::shared_ptr<CollectionObserver> observer;
-
     void showMainMenu() const;
     void handleMainInput(int choice);
     void createCollection();
     void openCollection();
     void enterCollection(const std::string &name);
     void deleteCollection();
-    void createNoteInCollection(const std::shared_ptr<Collection>&);
-    void viewNote(const std::shared_ptr<Collection>&);
-    void editNote(const std::shared_ptr<Collection>&);
-    void deleteNote(const std::shared_ptr<Collection>&);
-    void toggleNoteState(const std::shared_ptr<Collection>&);
+    void createNoteInCollection(const std::shared_ptr<Collection> &);
+    void viewNote(const std::shared_ptr<Collection> &);
+    void editNote(const std::shared_ptr<Collection> &);
+    void deleteNote(const std::shared_ptr<Collection> &);
+    void toggleNoteState(const std::shared_ptr<Collection> &);
     void viewImportantNotes();
+
+    std::shared_ptr<CollectionObserver> observer;
+    NoteManager manager;
 };
 
 

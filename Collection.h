@@ -13,7 +13,7 @@
 #include "Note.h"
 #include "Observer.h"
 
-class Collection : public std::enable_shared_from_this<Collection> {
+class Collection : public std::enable_shared_from_this<Collection> {        // Per poter ottenere in modo sicuro uno shared pointer a sè stesso
 public:
     explicit Collection(const std::string& name);
 

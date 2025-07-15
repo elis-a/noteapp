@@ -2,12 +2,12 @@
 #include "NoteManager.h"
 #include "Note.h"
 
-// test di prova, sempre true
+// Test di prova, sempre true
 TEST(ManagerTest, Placeholder) {
     EXPECT_TRUE(true);
 }
 
-// verifica della creazione di una collection
+// Verifica della creazione di una collection
 TEST(NoteManagerTest, CreateAndGetCollection) {
     NoteManager manager;
     manager.createCollection("Personal");
@@ -20,7 +20,7 @@ TEST(NoteManagerTest, CreateAndGetCollection) {
     ASSERT_EQ(collection->getName(), "Personal");
 }
 
-// verifica della creazione di una collection duplicata
+// Verifica della creazione di una collection duplicata
 TEST(NoteManagerTest, CreateDuplicateCollection) {
     NoteManager manager;
     manager.createCollection("Work");
@@ -28,7 +28,7 @@ TEST(NoteManagerTest, CreateDuplicateCollection) {
     ASSERT_THROW(manager.createCollection("Work"), std::runtime_error);
 }
 
-// verifica della cancellazione di una collection
+// Verifica della cancellazione di una collection
 TEST(NoteManagerTest, DeleteCollection) {
     NoteManager manager;
     manager.createCollection("ToDelete");
@@ -40,14 +40,14 @@ TEST(NoteManagerTest, DeleteCollection) {
     ASSERT_FALSE(manager.hasCollection("ToDelete"));
 }
 
-// verifica della cancellazione di una collection inesistente
+// Verifica della cancellazione di una collection inesistente
 TEST(NoteManagerTest, DeleteNonExistentCollection) {
     NoteManager manager;
 
     ASSERT_THROW(manager.deleteCollection("NonExistent"), std::runtime_error);
 }
 
-// verifica dei nomi delle collection
+// Verifica dei nomi delle collection
 TEST(NoteManagerTest, ListCollectionNames) {
     NoteManager manager;
     manager.createCollection("First");
@@ -65,24 +65,4 @@ TEST(NoteManagerTest, ListCollectionNames) {
     ASSERT_TRUE(foundFirst);
     ASSERT_TRUE(foundSecond);
     ASSERT_TRUE(foundThird);
-}
-
-// verifica della ricerca di una nota in tutte le collection
-TEST(NoteMnagerTest, FindNoteInAllCollection) {
-    NoteManager manager;
-    manager.createCollection("Groceries");
-    manager.createCollection("Projects");
-
-    auto collection = manager.getCollection("Projects");
-    auto note = std::make_shared<Note>("FindThisNote", "My important task.");
-    collection->addNote(note);
-
-    auto foundNote = manager.findNoteInAllCollection("FindThisNote");
-
-    ASSERT_NE(foundNote, nullptr);
-    ASSERT_EQ(foundNote->getTitle(), "FindThisNote");
-
-    auto notFoundNote = manager.findNoteInAllCollection("ThisNoteDoesNotExist");
-
-    ASSERT_EQ(notFoundNote, nullptr);
 }

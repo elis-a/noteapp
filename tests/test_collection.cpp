@@ -3,7 +3,7 @@
 #include "Note.h"
 #include "Observer.h"
 
-// test di prova, sempre true
+// Test di prova, sempre true
 TEST(CollectionTest, Placeholder) {
     EXPECT_TRUE(true);
 }
@@ -22,14 +22,14 @@ public:
     }
 };
 
-// verifica costruttore e nome della collection
+// Verifica costruttore e nome della collection
 TEST(CollectionTest, Constructor) {
     Collection collection("My Notes");
     ASSERT_EQ(collection.getName(), "My Notes");
     ASSERT_EQ(collection.getNotes().size(), 0);
 }
 
-// verifica dell'aggiunta di una nota
+// Verifica dell'aggiunta di una nota
 TEST(CollectionTest, AddNote) {
     Collection collection("Work");
     auto note = std::make_shared<Note>("Meeting", "Discuss project plan.");
@@ -39,7 +39,7 @@ TEST(CollectionTest, AddNote) {
     ASSERT_EQ(collection.getNotes()[0]->getTitle(), "Meeting");
 }
 
-// verifica dell'aggiunta di una nota duplicata
+// Verifica dell'aggiunta di una nota duplicata
 TEST(CollectionTest, AddDuplicateNote) {
     Collection collection("Duplicates");
     auto note = std::make_shared<Note>("Unique Note", "Some text.");
@@ -49,7 +49,7 @@ TEST(CollectionTest, AddDuplicateNote) {
     ASSERT_EQ(collection.getNotes().size(), 1);
 }
 
-// verifica della rimozione di una nota
+// Verifica della rimozione di una nota
 TEST(CollectionTest, RemoveNote){
     Collection collection("To Delete");
     auto note = std::make_shared<Note>("Temporary", "This will be deleted.");
@@ -67,7 +67,7 @@ TEST(CollectionTest, RemoveNote){
     ASSERT_FALSE(not_removed);
 }
 
-// verifica della ricerca di una nota
+// Verifica della ricerca di una nota
 TEST(CollectionTest, GetNote) {
     Collection collection("Searching");
     auto note1 = std::make_shared<Note>("FindMe", "I'm here.");
@@ -83,7 +83,7 @@ TEST(CollectionTest, GetNote) {
     ASSERT_EQ(notFoundNote, nullptr);
 }
 
-// verifica dell'observer e delle sue notifiche
+// Verifica dell'observer e delle sue notifiche
 TEST(CollectionTest, ObserverNotification) {
     Collection collection("Observed Collection");
     MockObserver observer;
