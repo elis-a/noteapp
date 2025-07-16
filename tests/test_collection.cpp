@@ -15,7 +15,7 @@ public:
     std::string lastCollectionName;
     size_t lastSize = 0;
 
-    void onCollectionChanged(const Collection& collection, std::size_t newSize) override {
+    void onCollectionChanged(const Collection &collection, std::size_t newSize) override {
         updateCount++;
         lastCollectionName = collection.getName();
         lastSize = newSize;
@@ -50,7 +50,7 @@ TEST(CollectionTest, AddDuplicateNote) {
 }
 
 // Verifica della rimozione di una nota
-TEST(CollectionTest, RemoveNote){
+TEST(CollectionTest, RemoveNote) {
     Collection collection("To Delete");
     auto note = std::make_shared<Note>("Temporary", "This will be deleted.");
     collection.addNote(note);

@@ -90,7 +90,7 @@ void NoteApp::enterCollection(const std::string &name) {
 
     int choice;
     do {
-        std::cout << "--- Collection: " << collection->getName() << " ---\n";
+        std::cout << "\n--- Collection: " << collection->getName() << " ---\n";
         const auto &notes = collection->getNotes();
         if (notes.empty()) {
             std::cout << "This collection is empty.\n";
